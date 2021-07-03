@@ -37,7 +37,7 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
             System.out.println ("parts (token):::"+parts[1]);
             return webClientBuilder.build()
                     .post()
-                    .uri("http://localhost:8081/users/validateToken?token=" + parts[1])
+                    .uri("http://localhost:8080/users/validateToken?token=" + parts[1])
                     .retrieve().bodyToMono(UserDto.class)
                     .map(userDto -> {
                         exchange.getRequest()

@@ -17,11 +17,9 @@ spring:
       discovery.locator.enabled: true
       routes:
         - id: service-postgrest-id
-          uri: http://localhost:3210/rpc/fun_empdesignation?eid=100004
+          uri: http://localhost:3210/
           predicates:
             Path=/rpc/**
-          filters:
-            - AuthFilter
         - id: service-users-sign-in
           uri: http://localhost:8081/service-users
           predicates:
