@@ -1,0 +1,37 @@
+server:
+  port: 8080
+
+management:
+  endpoint.gateway.enabled: true
+  endpoints.web.exposure.include: gateway
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    reactor.netty.http.client: DEBUG
+    
+spring:
+  application.name: backend-user
+  cloud:
+    gateway:
+      discovery.locator.enabled: true
+      routes:
+        - id: service-postgrest-id
+          uri: http://localhost:3210/rpc/fun_empdesignation?eid=100004
+          predicates:
+            Path=/rpc/**
+          filters:
+            - AuthFilter
+        - id: service-users-sign-in
+          uri: http://localhost:8081/service-users
+          predicates:
+            Path=/users/signIn
+        - id: service-users-validatetoken
+          uri: http://localhost:8081/service-users
+          predicates:
+            Path=/users/validateToken/**
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka   
+         
