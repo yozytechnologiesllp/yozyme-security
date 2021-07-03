@@ -20,6 +20,8 @@ spring:
           uri: http://localhost:3210/
           predicates:
             Path=/rpc/**
+          filters:
+            - AuthFilter
         - id: service-users-sign-in
           uri: http://localhost:8081/service-users
           predicates:
