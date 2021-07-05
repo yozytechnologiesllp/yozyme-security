@@ -14,22 +14,32 @@ spring:
   application.name: backend-user
   cloud:
     gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin, RETAIN_UNIQUE
+      globalcors:
+        add-to-simple-url-handler-mapping: true          
+        corsConfigurations:
+          '[/**]':
+             allowedOrigins: "*"
+             allowedHeaders: "*"
+             allowedMethods: "*"
+             allowCredentials: true
       discovery.locator.enabled: true
       routes:
-        - id: service-postgrest-id
-          uri: http://localhost:3210/
-          predicates:
-           - Path=/rpc/**,/leave**,/employee**,/public**,/attendance**,/designation**,/leave**,/skill**,/project**,/other**,/notification**,/application**,/salary**,/timesheet**,/technology**,/promotion**,/performance**,/onduty** 
-          filters:
-            - AuthFilter
-        - id: service-users-sign-in
-          uri: http://localhost:8081/service-users
-          predicates:
-            Path=/users/signIn
-        - id: service-users-validatetoken
-          uri: http://localhost:8081/service-users
-          predicates:
-            Path=/users/validateToken/**
+            - id: service-postgrest-id
+              uri: http://localhost:3210/
+              predicates:
+                - Path=/rpc/**,/leave**,/employee**,/public**,/attendance**,/designation**,/leave**,/skill**,/project**,/other**,/notification**,/application**,/salary**,/timesheet**,/technology**,/promotion**,/performance**,/onduty** 
+              filters:
+                - AuthFilter
+            - id: service-users-sign-in
+              uri: http://localhost:8081/service-users
+              predicates:
+                Path=/users/signIn
+            - id: service-users-validatetoken
+              uri: http://localhost:8081/service-users
+              predicates:
+                Path=/users/validateToken/**
 eureka:
   client:
     serviceUrl:
